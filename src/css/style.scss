@@ -67,6 +67,7 @@ body {
 
 // --------- Panel component ------------
 .panel-wrapper {
+  // border: 3px solid rgb(228, 30, 30);
   position: relative;
   z-index: 99;
   .panel {
@@ -94,6 +95,7 @@ body {
   z-index: 9;
 }
 .panel {
+  //border: 3px solid rgb(228, 30, 30);
   width: 25rem;
   position: fixed;
   top: 0;
@@ -101,8 +103,8 @@ body {
   right: 0;
   background: #fff;
   box-shadow: -3px 0 3px rgba(0, 0, 0, 0.04);
-  transform: translateX(25rem);
-  transition: all 0.3s ease-in-out;
+  //transform: translateX(25rem);
+  //transition: all 0.3s ease-in-out;
   z-index: 99;
   .head {
     padding: 0.5rem;
