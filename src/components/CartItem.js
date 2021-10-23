@@ -1,12 +1,15 @@
 import React from 'react';
 import { formatPrice } from 'commons/helper';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import axios from 'commons/axios';
 
 const CartItem = props => {
     const [mount, setMount] = useState(props.cart.mount);
     const { id, name, image, price } = props.cart || {};
-    const sumPrice = formatPrice(mount * parseInt(price));
+
+    const sumPrice = useMemo(() => {
+        return formatPrice(mount * parseInt(price));
+    }, [mount, price]);
 
     const handleChange = e => {
         const _mount = parseInt(e.target.value);
