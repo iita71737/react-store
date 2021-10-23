@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'commons/axios';
+import { toast } from 'react-toastify';
 class AddInventory extends React.Component {
     state = {
         name: '',
@@ -22,9 +23,18 @@ class AddInventory extends React.Component {
         const product = { ...this.state };
         axios.post('products', product).then(res => {
             this.props.close(res.data);
-            alert('Add Success');
+            toast.success('Add Success', { theme: 'colored' });
         });
     };
+
+    showToast = () => {
+        toast('default');
+        toast.info('info');
+        toast.success('success', { theme: 'colored' });
+        toast.warning('warning');
+        toast.error('error');
+    };
+
 
     render() {
         return (
@@ -109,9 +119,19 @@ class AddInventory extends React.Component {
                                 Cancel
                             </button>
                         </div>
+
+                        <div className="control">
+                            <button
+                                className="button is-primary"
+                                type="button"
+                                onClick={this.showToast}>
+                                ShowToast
+                            </button>
+                        </div>
+
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
         );
     }
 }
