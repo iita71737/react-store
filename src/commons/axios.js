@@ -6,6 +6,21 @@ const axios = baseURL => {
         baseURL: baseURL || 'http://localhost:3003',
         timeout: 1000
     });
+
+    // 此處的instance為我們create的實體
+    instance.interceptors.request.use(
+        config => {
+            const jwToken = global.auth.getToken();
+            config.headers['Authorization'] = 'Bearer ' + jwToken;
+            // Do something before request is sent
+            return config;
+        },
+        error => {
+            // Do something with request error
+            return Promise.reject(error);
+        }
+    );
+
     return instance;
 
 };
