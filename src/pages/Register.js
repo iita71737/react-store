@@ -1,36 +1,56 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 import axios from 'commons/axios';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
-export default function Login(props) {
+export default function Register(props) {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = async data => {
-        // 2. 获取表单数据
-        console.log(data);
-
-        // 3. 处理登录逻辑
+        // 3. 处理注册逻辑
         try {
-            const { email, password } = data;
-            const res = await axios.post('/auth/login', { email, password });
+            const { nickname, email, password } = data;
+            const res = await axios.post('/auth/register', {
+                nickname,
+                email,
+                password,
+                type: 0
+            });
             const jwToken = res.data;
-            console.log(jwToken);
             global.auth.setToken(jwToken);
-            toast.success('Login Success');
-
-            props.history.push('/');   // 4. 跳转到首页视图
+            toast.success('Register Success');
+            // 4. 跳转到首页视图
+            props.history.push('/');
         } catch (error) {
             const message = error.response.data.message;
             toast.error(message);
         }
     };
-    //console.log(errors);
 
     return (
         <div className="login-wrapper">
             <form className="box login-box" onSubmit={handleSubmit(onSubmit)}>
+                <div className="field">
+                    <label className="label">Nickname</label>
+                    <div className="control">
+                        <input
+                            className={`input ${errors.nickname && 'is-danger'}`}
+                            type="text"
+                            placeholder="Nickname"
+                            name="nickname"
+                            {...register("nickname",
+                                {
+                                    required: 'nickname is required'
+                                })}
+                        />
+                        {errors.nickname && (
+                            <p className="helper has-text-danger">
+                                {errors.nickname.message}
+                            </p>
+                        )}
+                    </div>
+                </div>
                 <div className="field">
                     <label className="label">Email</label>
                     <div className="control">
@@ -43,12 +63,10 @@ export default function Login(props) {
                                 {
                                     required: 'email is required',
                                     pattern: {
-                                        //eslint-disable-next-line
-                                        value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                        value: /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,6}$/,
                                         message: 'invalid email'
                                     }
-                                }
-                            )}
+                                })}
                         />
                         {errors.email && (
                             <p className="helper has-text-danger">{errors.email.message}</p>
@@ -70,8 +88,7 @@ export default function Login(props) {
                                         value: 6,
                                         message: 'cannot be less than 6 digits'
                                     }
-                                }
-                            )}
+                                })}
                         />
                         {errors.password && (
                             <p className="helper has-text-danger">
@@ -82,18 +99,17 @@ export default function Login(props) {
                 </div>
                 <div className="field">
                     <div className="control">
-                        <button className="button is-fullwidth is-primary">Login</button>
+                        <button className="button is-fullwidth is-primary">Submit</button>
                     </div>
                 </div>
-                <div className="control mt-3">
-                    <Link to="/register">
-                        <button className="button is-fullwidth  is-info">Register Now</button>
-                    </Link>
+                <div className="field">
+                    <div className="control">
+                        <Link to="/login">
+                            <button className="button is-fullwidth is-info">Back to Login</button>
+                        </Link>
+                    </div>
                 </div>
             </form>
-
-
-
         </div>
     );
 }

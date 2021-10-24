@@ -4,12 +4,14 @@ import App from 'pages/App';
 import Login from 'pages/Login';
 import NotFound from 'pages/NotFound';
 import Cart from 'pages/Cart';
+import Register from 'pages/Register';
 
 const Router = () => (
     <BrowserRouter>
         <Switch>
             <Route path="/" exact component={App} />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             <Route path="/cart" component={Cart} />
             <Route component={NotFound} />
         </Switch>
