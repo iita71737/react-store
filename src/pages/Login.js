@@ -1,61 +1,69 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
-class Login extends React.Component {
-    // State
-    state = {
-        email: '',
-        password: ''
+export default function Login(props) {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const onSubmit = data => {
+        console.log(data);
     };
+    console.log(errors);
 
-    handleSubmit = event => {
-        // 1. 阻止默认事件行为
-        event.preventDefault();
-
-        // 2. 获取表单数据
-        console.log(this.state);
-
-        // 3. 处理登录逻辑
-
-        // 4. 跳转到首页视图
-        // this.props.history.push('/');
-    };
-
-
-    handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
-
-    render() {
-        return (
-            <div className="login-wrapper">
-                <form className="box login-box" onSubmit={this.handleSubmit}>
-                    <div className="field">
-                        <label className="label">Email</label>
-                        <div className="control">
-                            <input className="input" type="text" placeholder="Email" name="email" value={this.state.email}
-                                onChange={this.handleChange} />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label className="label">Password</label>
-                        <div className="control">
-                            <input className="input" type="password" placeholder="Password" name="password" value={this.state.password}
-                                onChange={this.handleChange} />
-                        </div>
-                    </div>
+    return (
+        <div className="login-wrapper">
+            <form className="box login-box" onSubmit={handleSubmit(onSubmit)}>
+                <div className="field">
+                    <label className="label">Email</label>
                     <div className="control">
-                        <button className="button is-fullwidth is-primary" >Login</button>
+                        <input
+                            className={`input ${errors.email && 'is-danger'}`}
+                            type="text"
+                            placeholder="Email"
+                            name="email"
+                            {...register("email",
+                                {
+                                    required: 'email is required',
+                                    pattern: {
+                                        value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                        message: 'invalid email'
+                                    }
+                                }
+                            )}
+                        />
+                        {errors.email && (
+                            <p className="helper has-text-danger">{errors.email.message}</p>
+                        )}
                     </div>
-                </form>
-
-
-
-            </div>
-        );
-        // JSX  Babel  Emmet
-    }
+                </div>
+                <div className="field">
+                    <label className="label">Password</label>
+                    <div className="control">
+                        <input
+                            className={`input ${errors.password && 'is-danger'}`}
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            {...register("password",
+                                {
+                                    required: 'password is required',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'cannot be less than 6 digits'
+                                    }
+                                }
+                            )}
+                        />
+                        {errors.password && (
+                            <p className="helper has-text-danger">
+                                {errors.password.message}
+                            </p>
+                        )}
+                    </div>
+                </div>
+                <div className="control">
+                    <button className="button is-fullwidth is-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    );
 }
-
-export default Login;
