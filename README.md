@@ -1,5 +1,5 @@
 # reactstore-demo
-![Demo](https://github.com/iita71737/react-store/blob/master/public/image/react-store.PNG)
+![Demo](https://github.com/iita71737/react-store/blob/master/public/images/react-store.png)
 
 # Getting Started with Create React App
 
