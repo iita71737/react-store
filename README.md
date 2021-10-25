@@ -1,3 +1,6 @@
+# reactstore-demo
+![Demo](https://github.com/iita71737/react-store/blob/master/public/image/react-store.PNG)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
